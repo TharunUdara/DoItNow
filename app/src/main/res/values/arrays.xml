@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="task_categories">
+        <item>Personal</item>
+        <item>Work</item>
+        <item>Study</item>
+        <item>Health</item>
+        <item>Shopping</item>
+        <item>Finance</item>
+        <item>Goals</item>
+        <item>Others</item>
+    </string-array>
+</resources>

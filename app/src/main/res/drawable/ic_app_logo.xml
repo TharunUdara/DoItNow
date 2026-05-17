@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background circle (blue) - Perfect circle as per UI screenshot -->
+    <path
+        android:fillColor="@color/primary_blue"
+        android:pathData="M54,54m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0" />
+
+    <!-- Checkmark (white) - Adjusted to match the specific look in the UI -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M44,54l7,7l14,-14l3,3l-17,17l-10,-10z" />
+
+</vector>
