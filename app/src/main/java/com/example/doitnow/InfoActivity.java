@@ -9,6 +9,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+/**
+ * Screen displaying information about the developer and the application version.
+ * Includes both bottom navigation and side drawer navigation.
+ */
 public class InfoActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
@@ -17,10 +21,12 @@ public class InfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
+        // Setup Drawer Layout for side navigation
         drawerLayout = findViewById(R.id.drawerLayout);
         View btnMenu = findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
+        // Side Bar navigation listener
         NavigationView navSideBar = findViewById(R.id.navSideBar);
         navSideBar.setNavigationItemSelectedListener(item -> {
             handleNavigation(item.getItemId());
@@ -28,6 +34,7 @@ public class InfoActivity extends AppCompatActivity {
             return true;
         });
 
+        // Bottom Navigation setup
         BottomNavigationView nav = findViewById(R.id.bottomNav);
         nav.setSelectedItemId(R.id.nav_info);
         nav.setOnItemSelectedListener(item -> {
@@ -36,6 +43,9 @@ public class InfoActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Centralized navigation handler for both bottom and side bars.
+     */
     private void handleNavigation(int id) {
         if (id == R.id.nav_tasks) {
             startActivity(new Intent(this, MainActivity.class));
@@ -43,8 +53,6 @@ public class InfoActivity extends AppCompatActivity {
         } else if (id == R.id.nav_profile) {
             startActivity(new Intent(this, AccountActivity.class));
             overridePendingTransition(0, 0);
-        } else if (id == R.id.nav_info) {
-            // Already here
         }
     }
 

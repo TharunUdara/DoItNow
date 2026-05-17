@@ -8,11 +8,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Handles user authentication.
+ * Checks for an existing session or validates entered credentials.
+ */
 public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        // Auto-login if session exists
         SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         if (prefs.getBoolean("isLoggedIn", false)) {
             startActivity(new Intent(this, MainActivity.class));
@@ -25,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText etUsername = findViewById(R.id.etUsername);
         EditText etPassword = findViewById(R.id.etPassword);
 
+        // Simple mock login logic using SharedPreferences
         findViewById(R.id.btnLogin).setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -41,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Redirect to SignUpActivity
         findViewById(R.id.tvSignUp).setOnClickListener(v -> {
             startActivity(new Intent(this, SignUpActivity.class));
         });

@@ -8,6 +8,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Allows new users to create an account.
+ * Saves user details locally using SharedPreferences.
+ */
 public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +23,14 @@ public class SignUpActivity extends AppCompatActivity {
         EditText etPassword = findViewById(R.id.etPassword);
         EditText etConfirmPassword = findViewById(R.id.etConfirmPassword);
 
+        // Sign Up button logic
         findViewById(R.id.btnSignUp).setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
             String confirm = etConfirmPassword.getText().toString().trim();
 
+            // Validation
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
@@ -35,7 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
-            // Save user info
+            // Save user info locally for mock authentication
             SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("username", username);
@@ -44,10 +50,12 @@ public class SignUpActivity extends AppCompatActivity {
             editor.putBoolean("isLoggedIn", true);
             editor.apply();
 
+            // Clear stack and go to MainActivity
             startActivity(new Intent(this, MainActivity.class));
             finishAffinity();
         });
 
+        // Go back to login
         findViewById(R.id.tvLogin).setOnClickListener(v -> {
             finish();
         });

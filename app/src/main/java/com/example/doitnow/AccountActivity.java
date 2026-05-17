@@ -18,6 +18,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+/**
+ * Account screen where users can view and edit their profile details.
+ * Supports profile photo uploads and session management (Sign Out).
+ */
 public class AccountActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
     private ImageView ivAvatar;
@@ -32,10 +36,12 @@ public class AccountActivity extends AppCompatActivity {
 
         prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
+        // Setup Drawer Layout for side navigation
         drawerLayout = findViewById(R.id.drawerLayout);
         View btnMenu = findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
+        // Side Bar navigation listener
         NavigationView navSideBar = findViewById(R.id.navSideBar);
         navSideBar.setNavigationItemSelectedListener(item -> {
             handleNavigation(item.getItemId());
@@ -50,17 +56,17 @@ public class AccountActivity extends AppCompatActivity {
 
         loadUserData();
 
-        // Photo upload
+        // Allow user to pick a profile photo from gallery
         ivAvatar.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, PICK_IMAGE);
         });
 
-        // Edit Info
+        // Show edit profile dialog
         findViewById(R.id.btnEditInfo).setOnClickListener(v -> showEditDialog());
 
-        // Sign Out
+        // Handle logout
         findViewById(R.id.btnSignOut).setOnClickListener(v -> {
             prefs.edit().putBoolean("isLoggedIn", false).apply();
             Intent intent = new Intent(this, LoginActivity.class);
@@ -68,7 +74,7 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Bottom Nav
+        // Bottom Navigation setup
         BottomNavigationView nav = findViewById(R.id.bottomNav);
         nav.setSelectedItemId(R.id.nav_profile);
         nav.setOnItemSelectedListener(item -> {
@@ -77,6 +83,9 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Centralized navigation handler for both bottom and side bars.
+     */
     private void handleNavigation(int id) {
         if (id == R.id.nav_tasks) {
             startActivity(new Intent(this, MainActivity.class));
@@ -84,11 +93,12 @@ public class AccountActivity extends AppCompatActivity {
         } else if (id == R.id.nav_info) {
             startActivity(new Intent(this, InfoActivity.class));
             overridePendingTransition(0, 0);
-        } else if (id == R.id.nav_profile) {
-            // Already here
         }
     }
 
+    /**
+     * Loads user profile data from SharedPreferences.
+     */
     private void loadUserData() {
         tvName.setText(prefs.getString("username", "Alex Thompson"));
         tvUsername.setText("@" + prefs.getString("username", "alex_doit"));
@@ -99,6 +109,9 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays a dialog to edit name and email.
+     */
     private void showEditDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_edit_profile, null);
@@ -129,6 +142,7 @@ public class AccountActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
             if (imageUri != null) {
                 ivAvatar.setImageURI(imageUri);
+                // Persist profile image URI
                 prefs.edit().putString("profileImage", imageUri.toString()).apply();
             }
         }
